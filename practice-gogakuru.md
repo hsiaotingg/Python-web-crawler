@@ -21,7 +21,7 @@ import pickle
 # 爬蟲前置
 ua = UserAgent()
 opts = Options()
-opts.add_argument('--headless')
+opts.add_argument('--headless')  #不顯示瀏覽器
 opts.add_argument("user-agent=" + ua.chrome)
 driver = webdriver.Chrome(ChromeDriverManager().install(),options=opts)
 soup = BeautifulSoup(driver.page_source,"lxml")
