@@ -1,10 +1,10 @@
 ### 題目
 請把下方網頁的所有英文句子(EX. You bet!)(只要文字)用 SELENIUM 抓下來,
-且爬取的時候不顯示螢幕,並把爬下來的語料存成三種形式
+且爬取的時候不顯示螢幕,並把爬下來的語料存成三種形式<br>
+[網站連結](https://gogakuru.com/english/phrase/genre/180_%E5%88%9D%E7%B4%9A%E3%83%AC%E3%83%99%E3%83%AB.html?layoutPhrase=1&orderPhrase=1&condMovie=0&flow=enSearchGenre&condGenre=180&perPage=50)<br>
 1. txt
 2. 直接串資料庫存入
-3. pickle (課程中沒有此部分,請自我突破)<br>
-[網站連結](https://gogakuru.com/english/phrase/genre/180_%E5%88%9D%E7%B4%9A%E3%83%AC%E3%83%99%E3%83%AB.html?layoutPhrase=1&orderPhrase=1&condMovie=0&flow=enSearchGenre&condGenre=180&perPage=50)
+3. pickle (課程中沒有此部分,請自我突破)
 
 ### code
 ```
