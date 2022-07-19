@@ -38,3 +38,4 @@ for i in ls1:
 with open("output.json","w",encoding = "utf-8") as file:
     file.write(json.dumps(ls2,ensure_ascii=False))
 ```
+![image](https://github.com/hsiaotingg/Python-web-crawler/blob/main/pic/technews-3.png)
