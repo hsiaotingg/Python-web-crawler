@@ -1,5 +1,6 @@
 ### 題目
 開啟 practice-technews-1 整理好的檔案，使用檔案裡面提供的連結，去爬報導內的正文內容文字，一個 url 則產生一個 txt 檔，內容為 url 的正文文字<br>
+![image](https://github.com/hsiaotingg/Python-web-crawler/blob/main/pic/1-2.png)
 
 ### code
 ```
