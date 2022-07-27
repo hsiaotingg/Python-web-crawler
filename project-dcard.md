@@ -12,7 +12,7 @@ from webdriver_manager.chrome import ChromeDriverManager  # 自動更新webdrive
 import time
 from fake_useragent import UserAgent
 
-search = "王品"
+search = input("請輸入品牌:")
 ua = UserAgent()
 options = Options()
 options.add_argument("user-agent=" + ua.chrome)
