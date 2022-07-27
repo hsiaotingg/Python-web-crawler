@@ -20,6 +20,7 @@ options.add_argument("user-agent=" + ua.chrome)
 driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 driver.get("https://www.dcard.tw/search?forum=food&query={}".format(search))
 
+# 無限滾動
 temp_height = 0
 link_list = []
 while True:
@@ -42,3 +43,4 @@ ls.append(dic)
 with open("link.json","r",encoding="utf-8") as file:
     json.dump(ls, file, ensure_ascii=False)
 ```
+*未完
