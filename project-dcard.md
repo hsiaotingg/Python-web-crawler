@@ -12,35 +12,36 @@ from webdriver_manager.chrome import ChromeDriverManager  # 自動更新webdrive
 import time
 from fake_useragent import UserAgent
 
-search = input("請輸入品牌:")
-ua = UserAgent()
-options = Options()
-options.add_argument("user-agent=" + ua.chrome)
-# options.add_argument("--headless")
-driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
-driver.get("https://www.dcard.tw/search?forum=food&query={}".format(search))
+def searchbraand(search):
+    ua = UserAgent()
+    options = Options()
+    options.add_argument("user-agent=" + ua.chrome)
+    # options.add_argument("--headless")
+    driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+    driver.get("https://www.dcard.tw/search?forum=food&query={}".format(search))
 
-# 無限滾動
-temp_height = 0
-link_list = []
-while True:
-    driver.execute_script("window.scrollBy(0,1000)")
-    time.sleep(random.randint(5, 15))
-    check_height = driver.execute_script("return document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;")
-    if check_height == temp_height:
-        break
-    temp_height = check_height
-driver.quit()
+    # 無限滾動
+    temp_height = 0
+    link_list = []
+    while True:
+        driver.execute_script("window.scrollBy(0,1000)")
+        time.sleep(random.randint(5, 15))
+        check_height = driver.execute_script("return document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;")
+        if check_height == temp_height:
+            break
+        temp_height = check_height
+    driver.quit()
 
-soup = Beautifulsoup(driver.page_source, 'lxml')
-url = soup.find_all('a', class_="sc-b205d8ae-3 iOQsOu")
-link_list.append("https://www.dcard.tw" + url.get("href"))
+    soup = Beautifulsoup(driver.page_source, 'lxml')
+    url = soup.find_all('a', class_="sc-b205d8ae-3 iOQsOu") 
+    link_list.append("https://www.dcard.tw" + url.get("href"))
 
-dic = {}
-dic["link"] = link_list
-ls = []
-ls.append(dic)
-with open("link.json","r",encoding="utf-8") as file:
-    json.dump(ls, file, ensure_ascii=False)
+    #把搜尋結果的連結整理成dictionary包在list裡
+    dic = {}
+    dic["link"] = link_list
+    ls = []
+    ls.append(dic)
+    with open("link_{}.json".format(search),"r",encoding="utf-8") as file:
+        json.dump(ls, file, ensure_ascii=False)
 ```
 *未完
