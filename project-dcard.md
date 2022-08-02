@@ -3,45 +3,48 @@
 
 ### Code
 ```
-import random
-from bs4 import BeautifulSoup
-import json
+import pandas as pd
+from bs4 import BeautifulSoup as bs
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager  # 自動更新webdriver pip install webdriver-manager
 import time
 from fake_useragent import UserAgent
 
-def searchbraand(search):
-    ua = UserAgent()
-    options = Options()
-    options.add_argument("user-agent=" + ua.chrome)
-    # options.add_argument("--headless")
-    driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
-    driver.get("https://www.dcard.tw/search?forum=food&query={}".format(search))
+search = "王品"
+ua = UserAgent()
+options = Options()
+options.add_argument("user-agent=" + ua.chrome)
+options.add_argument("--headless")
+driver = webdriver.Chrome(ChromeDriverManager().install())
+driver.get("https://www.dcard.tw/search?forum=food&query={}".format(search))
 
-    # 無限滾動
-    temp_height = 0
-    link_list = []
-    while True:
-        driver.execute_script("window.scrollBy(0,1000)")
-        time.sleep(random.randint(5, 15))
-        check_height = driver.execute_script("return document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;")
-        if check_height == temp_height:
-            break
-        temp_height = check_height
-    driver.quit()
+SCROLL_PAUSE_TIME = 2
+# Get scroll height
+last_height = driver.execute_script("return document.body.scrollHeight")
 
-    soup = Beautifulsoup(driver.page_source, 'lxml')
-    url = soup.find_all('a', class_="sc-b205d8ae-3 iOQsOu") 
-    link_list.append("https://www.dcard.tw" + url.get("href"))
+datalist = []
+while True:  #無限滾動
+    #滾到底部
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    soup = bs(driver.page_source, 'lxml')
+    url = soup.find_all('a', class_="sc-8fe4d6a1-3 kfHo")
+    link_list = ["https://www.dcard.tw" + i.get("href") for i in url]
 
-    #把搜尋結果的連結整理成dictionary包在list裡
-    dic = {}
-    dic["link"] = link_list
-    ls = []
-    ls.append(dic)
-    with open("link_{}.json".format(search),"r",encoding="utf-8") as file:
-        json.dump(ls, file, ensure_ascii=False)
+    #休息
+    time.sleep(SCROLL_PAUSE_TIME)
+
+    # Calculate new scroll height and compare with last scroll height
+    new_height = driver.execute_script("return document.body.scrollHeight")
+    if new_height == last_height:
+        break
+    last_height = new_height
+    [datalist.append(link) for link in link_list]  #將搜尋結果的文章結果整理
+
+link = list(set(datalist)) #排除重複的資料
+df = pd.DataFrame(link,columns=['link'])
+df.to_csv("link_{}.csv".format(search))
+for x in df['link']:
+    pass
 ```
 *未完
