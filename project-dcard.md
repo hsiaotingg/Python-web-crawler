@@ -43,7 +43,7 @@ while True:  #無限滾動
 
 link = list(set(datalist)) #排除重複的資料
 df = pd.DataFrame(link,columns=['link'])
-df.to_csv("link_{}.csv".format(search))
+
 for x in df['link']:
     pass
 ```
